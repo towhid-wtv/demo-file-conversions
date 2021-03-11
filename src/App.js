@@ -30,8 +30,14 @@ function App() {
 
 
       console.log("response",res.data);
-      let { fileName, filePath } = res.data;
-      setuploadedFile({fileName, filePath});
+      if(res.data.msg !== 'No file chosen.'){
+        let redirectUrl = res.data.redirectUrl;
+        window.open(redirectUrl);
+      }
+
+
+      // let { fileName, filePath } = res.data;
+      // setuploadedFile({fileName, filePath});
     } catch(err){
       console.log('err', err);
     }
