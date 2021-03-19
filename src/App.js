@@ -25,7 +25,17 @@ function App() {
     formData.append('file', file);
 
     try {
-      let res = await axios.post('http://localhost:5000/upload', formData, {
+      let webcastId = '1237-1948-27854'
+
+
+      // Send a POST request
+      let res = await axios({
+        method: 'post',
+        url: 'http://localhost:5000/upload',
+        params: {
+          webcastId
+        },
+        data: formData,
         headers: {
           'Content-Type' : 'multipart/form-data'
         },
@@ -41,12 +51,29 @@ function App() {
         }
       });
 
+      // let res = await axios.post(`http://localhost:5000/upload`, formData, {
+      //   headers: {
+      //     'Content-Type' : 'multipart/form-data'
+      //   },
+      //   onUploadProgress: (ProgressEvent) => {
+      //     console.log('ProgressEvent',ProgressEvent);
+      //     let {loaded, total} = ProgressEvent;
+      //     let percentageOfUPload = parseInt(Math.round(loaded * 100)/total);
+      //     console.log('progress Event percentage', percentageOfUPload);
+      //     setUploadProgress(percentageOfUPload);
+      //     if(percentageOfUPload === 100){
+      //       setFileConvesionStatus("Converting your files into jpg");
+      //     }
+      //   }
+      // });
+
 
 
       if(res.data.msg !== 'No file chosen.'){
         console.log("response",res.data);
         let _redirectUrl = res.data.redirectUrl;
         console.log(_redirectUrl);
+        // http://localhost:5000?fileName=nobotchat flyer.pdf&numOfPages=4
         setRedirectUrl(_redirectUrl);
         setFileConvesionStatus("conversion success");
        
