@@ -25,13 +25,13 @@ function App() {
     formData.append('file', file);
 
     try {
-      let webcastId = '1237-1948-27854'
+      let webcastId = '1410-1948-27854'
 
 
       // Send a POST request
       let res = await axios({
         method: 'post',
-        url: 'http://localhost:5000/upload',
+        url: 'http://localhost:5000/convertToJpg',
         params: {
           webcastId
         },
