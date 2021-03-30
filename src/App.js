@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import axios from 'axios';
 
 function App() {
-  const [file, setFile] = useState('');
+  const [file, setFile] = useState();
   const [fileName, setFileName] = useState('Choose File');
   const [uploadedFile, setuploadedFile] = useState({});
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -22,16 +22,20 @@ function App() {
 
     console.log("on submit",e);
     let formData = new FormData();
+    formData.append('name', 'file');
     formData.append('file', file);
 
     try {
-      let webcastId = '1410-1948-27854'
+      let webcastId = '1510-1948-27854'
 
 
       // Send a POST request
+
+
       let res = await axios({
         method: 'post',
         url: 'http://localhost:5000/convertToJpg',
+        // url: 'http://localhost:5000/test',
         params: {
           webcastId
         },
@@ -50,24 +54,6 @@ function App() {
           }
         }
       });
-
-      // let res = await axios.post(`http://localhost:5000/upload`, formData, {
-      //   headers: {
-      //     'Content-Type' : 'multipart/form-data'
-      //   },
-      //   onUploadProgress: (ProgressEvent) => {
-      //     console.log('ProgressEvent',ProgressEvent);
-      //     let {loaded, total} = ProgressEvent;
-      //     let percentageOfUPload = parseInt(Math.round(loaded * 100)/total);
-      //     console.log('progress Event percentage', percentageOfUPload);
-      //     setUploadProgress(percentageOfUPload);
-      //     if(percentageOfUPload === 100){
-      //       setFileConvesionStatus("Converting your files into jpg");
-      //     }
-      //   }
-      // });
-
-
 
       if(res.data.msg !== 'No file chosen.'){
         console.log("response",res.data);
@@ -95,10 +81,10 @@ function App() {
         console.log("test url", redirectUrl);
         window.open(redirectUrl)
       }}>{redirectUrl}</button></div>
-      <form className="mt-5" onSubmit = {onSubmit} >
+      <form className="mt-5" onSubmit = {onSubmit} encType="multipart/form-data" method="post">
         <div className="form-group">
           <div className="d-flex justify-content-center align-items-center">
-            <input type="file" className="form-control-file" id="customFile" onChange = {onChange}/>
+            <input type="file" className="form-control-file" id="customFile" accept="file" onChange = {onChange}/>
             <button type="submit" value="upload" className="submit_button btn btn-primary">Submit</button>
           </div>
         </div>
